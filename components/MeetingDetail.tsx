@@ -1,0 +1,7 @@
+import Link from "next/link";
+import type { Meeting } from "@/lib/types";
+
+export function MeetingDetail({ meeting }: { meeting: Meeting }) {
+    const date = new Date(`${meeting.date}T12:00:00`);
+    return <article className="detail-sheet"><div className="detail-heading"><div><p className="eyebrow">Oak Street Ward · Sacrament meeting</p><h1>{meeting.theme}</h1><p className="detail-date">{date.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}</p></div><Link className="print-link" href={`/meetings/${meeting.id}?print=true`} target="_blank">Print agenda ↗</Link></div><dl className="meeting-facts"><div><dt>Presiding</dt><dd>{meeting.presiding}</dd></div><div><dt>Conducting</dt><dd>{meeting.conducting}</dd></div><div><dt>Opening hymn</dt><dd>{meeting.openingHymn}</dd></div><div><dt>Closing hymn</dt><dd>{meeting.closingHymn}</dd></div></dl><div className="agenda"><div className="agenda-header"><span>Agenda</span><span>Time</span></div>{meeting.items.map((item) => <div className="agenda-row" key={item.id}><div><strong>{item.title}</strong>{item.notes && <span>{item.notes}</span>}</div><time>{item.time}</time></div>)}</div><p className="detail-note">Please arrive a few minutes early so we can begin together.</p></article>;
+}
