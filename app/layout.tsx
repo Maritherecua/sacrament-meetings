@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Bella Vista Ward | Sacrament Meetings",
-  description: "A clear, quiet record of Bella Vista Ward sacrament meetings.",
+  description: "A clear, quiet record of Bella Vista  Ward sacrament meetings.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
