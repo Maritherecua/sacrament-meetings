@@ -1,4 +1,5 @@
-import Link from "next/link";
+"use client";
+
 import type { ReactElement } from "react";
 import type {
   Hymn,
@@ -25,13 +26,18 @@ function businessLabel(item: WardBusinessItem): string {
 
 export function MeetingDetail({ meeting }: MeetingDetailProps): ReactElement {
   const date = new Date(`${meeting.date}T12:00:00`);
+
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
-    <article className="detail-sheet space-y-8">
-      <div className="detail-heading flex flex-col items-start gap-6 md:flex-row md:items-end md:justify-between">
+    <article className="detail-sheet space-y-8 print:space-y-4 print:p-0 print:text-black">
+      <div className="detail-heading flex flex-col items-start gap-6 md:flex-row md:items-end md:justify-between print:flex-row print:items-end print:justify-between">
         <div>
-          <p className="eyebrow">Oak Street Ward · Sacrament meeting</p>
-          <h1>{meeting.meetingType} meeting</h1>
-          <p className="detail-date">
+          <p className="eyebrow print:text-gray-600">Oak Street Ward · Sacrament meeting</p>
+          <h1 className="print:text-2xl print:font-bold">{meeting.meetingType} meeting</h1>
+          <p className="detail-date print:text-sm">
             {date.toLocaleDateString("en-US", {
               weekday: "long",
               month: "long",
@@ -40,49 +46,51 @@ export function MeetingDetail({ meeting }: MeetingDetailProps): ReactElement {
             })}
           </p>
         </div>
-        <Link
-          className="print-link"
-          href={`/meetings/${meeting.id}?print=true`}
-          target="_blank"
+        <button
+          type="button"
+          onClick={handlePrint}
+          className="print-link cursor-pointer print:hidden"
         >
           Print agenda ↗
-        </Link>
+        </button>
       </div>
-      <dl className="meeting-facts grid grid-cols-1 gap-5 sm:grid-cols-2">
+
+      <dl className="meeting-facts grid grid-cols-1 gap-5 sm:grid-cols-2 print:grid-cols-2 print:gap-3 print:text-sm">
         <div>
-          <dt>Presiding</dt>
+          <dt className="print:font-semibold">Presiding</dt>
           <dd>{meeting.presiding}</dd>
         </div>
         <div>
-          <dt>Conducting</dt>
+          <dt className="print:font-semibold">Conducting</dt>
           <dd>{meeting.conducting}</dd>
         </div>
         <div>
-          <dt>Opening hymn</dt>
+          <dt className="print:font-semibold">Opening hymn</dt>
           <dd>{hymnLabel(meeting.openingHymn)}</dd>
         </div>
         <div>
-          <dt>Opening prayer</dt>
+          <dt className="print:font-semibold">Opening prayer</dt>
           <dd>{meeting.openingPrayer}</dd>
         </div>
         <div>
-          <dt>Sacrament hymn</dt>
+          <dt className="print:font-semibold">Sacrament hymn</dt>
           <dd>{hymnLabel(meeting.sacramentHymn)}</dd>
         </div>
         <div>
-          <dt>Closing hymn</dt>
+          <dt className="print:font-semibold">Closing hymn</dt>
           <dd>{hymnLabel(meeting.closingHymn)}</dd>
         </div>
         <div>
-          <dt>Closing prayer</dt>
+          <dt className="print:font-semibold">Closing prayer</dt>
           <dd>{meeting.closingPrayer}</dd>
         </div>
         <div>
-          <dt>Stake business</dt>
+          <dt className="print:font-semibold">Stake business</dt>
           <dd>{meeting.stakeBusiness ? "Included" : "None"}</dd>
         </div>
       </dl>
-      <section className="agenda" aria-labelledby="agenda-heading">
+
+      <section className="agenda print:break-inside-avoid" aria-labelledby="agenda-heading">
         <div className="agenda-header">
           <span id="agenda-heading">Agenda</span>
           <span>Program</span>
@@ -114,7 +122,8 @@ export function MeetingDetail({ meeting }: MeetingDetailProps): ReactElement {
           </div>
         )}
       </section>
-      <p className="detail-note">
+
+      <p className="detail-note print:text-xs print:mt-4">
         Please arrive a few minutes early so we can begin together.
       </p>
     </article>
