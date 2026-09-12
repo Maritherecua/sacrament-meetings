@@ -1,5 +1,6 @@
-import { meetings } from "@/lib/meetings-db";
+import { getMeetings } from "@/lib/meetings-db";
 
-export function GET(): Response {
-    return Response.json(meetings);
+export function GET(request: Request): Response {
+    const date = new URL(request.url).searchParams.get("date");
+    return Response.json(getMeetings(date));
 }

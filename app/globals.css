@@ -23,7 +23,7 @@ body {
     margin: 0;
     background: var(--paper);
     color: var(--ink);
-    font-family: "Manrope", sans-serif;
+    font-family: var(--font-geist-sans), "Manrope", sans-serif;
 }
 
 a {
@@ -115,6 +115,16 @@ a {
 .home-hero {
     padding: 105px 0 120px;
     max-width: 720px;
+    display: grid;
+    grid-template-columns: 1fr 160px;
+    gap: 48px;
+    align-items: center;
+}
+
+.hero-image {
+    width: 160px;
+    height: 160px;
+    opacity: .72;
 }
 
 .eyebrow {
@@ -404,6 +414,11 @@ h2 {
 
     .home-hero {
         padding: 75px 0 85px;
+        grid-template-columns: 1fr;
+    }
+
+    .hero-image {
+        display: none;
     }
 
     .home-feature {
