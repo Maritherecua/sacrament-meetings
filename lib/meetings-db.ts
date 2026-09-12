@@ -1,56 +1,122 @@
-import type { Meeting } from "./types";
+import type { SacramentMeeting } from "./types";
 
-export const meetings: Meeting[] = [
+export const meetings: SacramentMeeting[] = [
     {
-        id: "2026-09-13",
+        id: 1,
         date: "2026-09-13",
-        theme: "Gathered in gratitude",
-        presiding: "Bishop Elena Marquez",
-        conducting: "Brother Theo Grant",
-        openingHymn: "How Great Thou Art",
-        closingHymn: "Count Your Blessings",
+        meetingType: "regular",
+        presiding: "Bishop Marquez",
+        conducting: "Brother Manuel Borda",
+        openingHymn: { number: 1, title: "How Great Thou Art" },
+        openingPrayer: "Brother Luna",
+        wardBusinessItem: [],
+        stakeBusiness: false,
+        sacramentHymn: { number: 3, title: "Come, Follow Me" },
+        speakers: [
+            { name: "Sister Amara Lee", type: "speaker" },
+            { name: "Elder Marcus Bell", type: "speaker" },
+            { name: "Ward Choir", type: "musical-number" },
+        ],
+        intermediateHymn: { number: 4, title: "Be Still, My Soul" },
+        closingHymn: { number: 2, title: "Count Your Blessings" },
+        closingPrayer: "Sister Langarica",
         items: [
-            { id: "welcome", title: "Welcome and announcements", time: "10:00 AM", location: "Meetinghouse foyer" },
-            { id: "sacrament", title: "Sacrament hymn and administration", time: "10:12 AM", location: "Chapel" },
-            { id: "speaker-1", title: "Message: The practice of gratitude", time: "10:28 AM", location: "Chapel", notes: "Sister Amara Lee" },
-            { id: "speaker-2", title: "Message: A table with room", time: "10:45 AM", location: "Chapel", notes: "Elder Marcus Bell" },
-            { id: "music", title: "Ward choir musical number", time: "11:03 AM", location: "Chapel", notes: "Come, Ye Children of the Lord" },
-            { id: "closing", title: "Closing remarks and prayer", time: "11:15 AM", location: "Chapel" },
+            
         ],
     },
     {
-        id: "2026-09-06",
+        id: 2,
         date: "2026-09-06",
-        theme: "A place to belong",
-        presiding: "Bishop Elena Marquez",
+        meetingType: "regular",
+        presiding: "Brother Tusher",
         conducting: "Sister Nia Patel",
-        openingHymn: "Come, Come, Ye Saints",
-        closingHymn: "Love One Another",
+        openingHymn: { number: 3, title: "Come, Come, Ye Saints" },
+        openingPrayer: "Gabriel Lopez",
+        wardBusinessItem: [{description: "Discussion on upcoming ward activities"}],
+        stakeBusiness: false,
+        sacramentHymn: { number: 5, title: "The Spirit of God" },
+        speakers: [
+            { name: "Sister Nia Patel", type: "speaker" },
+        ],
+        intermediateHymn: { number: 6, title: "Abide with Me; 'Tis Eventide" },
+        closingHymn: { number: 4, title: "Love One Another" },
+        closingPrayer: "Sister Perez",
+        announcements: ["Ward activity updates"],
         items: [
-            { id: "welcome", title: "Welcome and announcements", time: "10:00 AM", location: "Meetinghouse foyer" },
-            { id: "sacrament", title: "Sacrament hymn and administration", time: "10:12 AM", location: "Chapel" },
-            { id: "message", title: "Message: Finding our people", time: "10:30 AM", location: "Chapel", notes: "Sister Nia Patel" },
-            { id: "closing", title: "Closing remarks and prayer", time: "11:10 AM", location: "Chapel" },
+            
         ],
     },
     {
-        id: "2026-08-30",
+        id: 3,
         date: "2026-08-30",
-        theme: "Steady hands",
-        presiding: "Bishop Elena Marquez",
-        conducting: "Brother Theo Grant",
-        openingHymn: "Where Can I Turn for Peace?",
-        closingHymn: "Lead, Kindly Light",
+        meetingType: "regular",
+        presiding: "Bishop  Marquez",
+        conducting: "Brother Soberanis",
+        openingHymn: { number: 5, title: "Where Can I Turn for Peace?" },
+        openingPrayer: "Brother Perez",
+        wardBusinessItem: [],
+        stakeBusiness: false,
+        sacramentHymn: { number: 3, title: "Come, Follow Me" },
+        speakers: [
+            { name: "Brother Theo Grant", type: "speaker" },
+        ],
+        intermediateHymn: { number: 4, title: "Be Still, My Soul" },
+        closingHymn: { number: 6, title: "Lead, Kindly Light" },
+        closingPrayer: "Sister Canizales",
         items: [
-            { id: "welcome", title: "Welcome and announcements", time: "10:00 AM", location: "Meetinghouse foyer" },
-            { id: "sacrament", title: "Sacrament hymn and administration", time: "10:12 AM", location: "Chapel" },
-            { id: "message", title: "Message: Small acts, lasting faith", time: "10:30 AM", location: "Chapel", notes: "Brother Theo Grant" },
-            { id: "closing", title: "Closing remarks and prayer", time: "11:10 AM", location: "Chapel" },
+        
         ],
     },
+    {
+        id: 4,
+        date: "2026-09-13",
+        meetingType: "regular",
+        presiding: "Bishop  Marquez",
+        conducting: "Brother Patel",
+        openingHymn: { number: 1, title: "The Morning Breaks" },
+        openingPrayer: "Brother Tafolla",
+        wardBusinessItem: [],
+        stakeBusiness: false,
+        sacramentHymn: { number: 2, title: "Come, Follow Me" },
+        speakers: [
+            { name: "Sister Amara Lee", type: "speaker" },
+        ],
+        intermediateHymn: { number: 3, title: "Come, Come, Ye Saints" },
+        closingHymn: { number: 4, title: "Love One Another" },
+        closingPrayer: "Sister Alejandra Powell",
+        items: [
+        ],
+    },
+    {
+        id: 5,
+        date: "2026-09-20",
+        meetingType: "regular",
+        presiding: "President Mejia",
+        conducting: "Brother Meyer",
+        openingHymn: { number: 2, title: "The Spirit of God" },
+        openingPrayer: "Sister Rosales",
+        wardBusinessItem: [],
+        stakeBusiness: false,
+        sacramentHymn: { number: 3, title: "Come, Follow Me" },
+        speakers: [
+            { name: "Brother Theo Grant", type: "speaker" },
+        ],
+        intermediateHymn: { number: 4, title: "Be Still, My Soul" },
+        closingHymn: { number: 5, title: "The Spirit of God" },
+        closingPrayer: "Sister Mejia",
+        items: [
+        ]
+    }
+
 ];
 
-export function getMeeting(id: string) {
+export function getMeetings(date?: string | null): SacramentMeeting[] {
+    if (!date) {
+        return meetings;
+    }
+    return meetings.filter((meeting) => meeting.date === date);
+}
+export function getMeetingById(id: number): SacramentMeeting | undefined {
     return meetings.find((meeting) => meeting.id === id);
 }
 
@@ -58,5 +124,5 @@ export function getCurrentMeeting() {
     const today = new Date();
     const sunday = new Date(today);
     sunday.setDate(today.getDate() - today.getDay());
-    return getMeeting(sunday.toISOString().slice(0, 10)) ?? meetings[0];
+    return getMeetings(meetings.find(meeting => meeting.date === sunday.toISOString().slice(0, 10))?.date ?? meetings[0].date);
 }
