@@ -21,7 +21,7 @@ export const meetings: SacramentMeeting[] = [
         closingHymn: { number: 2, title: "Count Your Blessings" },
         closingPrayer: "Sister Langarica",
         items: [
-            
+
         ],
     },
     {
@@ -32,7 +32,7 @@ export const meetings: SacramentMeeting[] = [
         conducting: "Sister Nia Patel",
         openingHymn: { number: 3, title: "Come, Come, Ye Saints" },
         openingPrayer: "Gabriel Lopez",
-        wardBusinessItem: [{description: "Discussion on upcoming ward activities"}],
+        wardBusinessItem: [{ description: "Discussion on upcoming ward activities" }],
         stakeBusiness: false,
         sacramentHymn: { number: 5, title: "The Spirit of God" },
         speakers: [
@@ -43,7 +43,7 @@ export const meetings: SacramentMeeting[] = [
         closingPrayer: "Sister Perez",
         announcements: ["Ward activity updates"],
         items: [
-            
+
         ],
     },
     {
@@ -64,7 +64,7 @@ export const meetings: SacramentMeeting[] = [
         closingHymn: { number: 6, title: "Lead, Kindly Light" },
         closingPrayer: "Sister Canizales",
         items: [
-        
+
         ],
     },
     {
@@ -120,9 +120,13 @@ export function getMeetingById(id: number): SacramentMeeting | undefined {
     return meetings.find((meeting) => meeting.id === id);
 }
 
-export function getCurrentMeeting() {
+export function getCurrentMeeting(): SacramentMeeting {
     const today = new Date();
     const sunday = new Date(today);
     sunday.setDate(today.getDate() - today.getDay());
-    return getMeetings(meetings.find(meeting => meeting.date === sunday.toISOString().slice(0, 10))?.date ?? meetings[0].date);
+    return getMeetings(sunday.toISOString().slice(0, 10))[0] ?? meetings[0];
+}
+
+export function getMeeting(id: number): SacramentMeeting | undefined {
+    return getMeetingById(id);
 }
