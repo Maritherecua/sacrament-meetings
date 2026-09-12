@@ -9,7 +9,7 @@ async function apiUrl(path: string): Promise<string> {
 }
 
 export async function fetchMeetings(
-  date?: string,
+  date?: string
 ): Promise<SacramentMeeting[]> {
   const query = date ? `?date=${encodeURIComponent(date)}` : "";
   const response = await fetch(await apiUrl(`/api/meetings${query}`), {
@@ -24,11 +24,11 @@ export async function fetchMeetings(
 }
 
 export async function fetchMeeting(
-  id: string,
+  id: string
 ): Promise<SacramentMeeting | null> {
   const response = await fetch(
     await apiUrl(`/api/meetings/${encodeURIComponent(id)}`),
-    { cache: "no-store" },
+    { cache: "no-store" }
   );
 
   if (response.status === 404) {

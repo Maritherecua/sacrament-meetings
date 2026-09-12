@@ -35,8 +35,12 @@ export function MeetingDetail({ meeting }: MeetingDetailProps): ReactElement {
     <article className="detail-sheet space-y-8 print:space-y-4 print:p-0 print:text-black">
       <div className="detail-heading flex flex-col items-start gap-6 md:flex-row md:items-end md:justify-between print:flex-row print:items-end print:justify-between">
         <div>
-          <p className="eyebrow print:text-gray-600">Oak Street Ward · Sacrament meeting</p>
-          <h1 className="print:text-2xl print:font-bold">{meeting.meetingType} meeting</h1>
+          <p className="eyebrow print:text-gray-600">
+            Oak Street Ward · Sacrament meeting
+          </p>
+          <h1 className="print:text-2xl print:font-bold">
+            {meeting.meetingType} meeting
+          </h1>
           <p className="detail-date print:text-sm">
             {date.toLocaleDateString("en-US", {
               weekday: "long",
@@ -90,7 +94,10 @@ export function MeetingDetail({ meeting }: MeetingDetailProps): ReactElement {
         </div>
       </dl>
 
-      <section className="agenda print:break-inside-avoid" aria-labelledby="agenda-heading">
+      <section
+        className="agenda print:break-inside-avoid"
+        aria-labelledby="agenda-heading"
+      >
         <div className="agenda-header">
           <span id="agenda-heading">Agenda</span>
           <span>Program</span>
