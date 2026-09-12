@@ -123,6 +123,6 @@ export function getCurrentMeeting(): SacramentMeeting {
     return getMeetings(sunday.toISOString().slice(0, 10))[0] ?? meetings[0];
 }
 
-export function getMeeting(id: number): SacramentMeeting | undefined {
+export function getMeeting(id: number): SacramentMeeting | null {
     return getMeetingById(id);
 }
