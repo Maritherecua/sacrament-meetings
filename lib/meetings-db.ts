@@ -13,16 +13,15 @@ export const meetings: SacramentMeeting[] = [
         stakeBusiness: false,
         sacramentHymn: { number: 3, title: "Come, Follow Me" },
         speakers: [
-            { name: "Sister Amara Lee", type: "speaker" },
-            { name: "Elder Marcus Bell", type: "speaker" },
+            { name: "Sister Amara Lee", topic: "faith in Christ", type: "speaker" },
+            { name: "Elder Marcus Bell", topic: "Service", type: "speaker" },
             { name: "Ward Choir", type: "musical-number" },
         ],
         intermediateHymn: { number: 4, title: "Be Still, My Soul" },
         closingHymn: { number: 2, title: "Count Your Blessings" },
         closingPrayer: "Sister Langarica",
-        items: [
-
-        ],
+        announcements: [],
+        items: [],
     },
     {
         id: 2,
@@ -36,15 +35,13 @@ export const meetings: SacramentMeeting[] = [
         stakeBusiness: false,
         sacramentHymn: { number: 5, title: "The Spirit of God" },
         speakers: [
-            { name: "Sister Nia Patel", type: "speaker" },
+            { name: "Sister Nia Patel", topic: " Being prepared for service", type: "speaker" },
         ],
         intermediateHymn: { number: 6, title: "Abide with Me; 'Tis Eventide" },
         closingHymn: { number: 4, title: "Love One Another" },
         closingPrayer: "Sister Perez",
         announcements: ["Ward activity updates"],
-        items: [
-
-        ],
+        items: [],
     },
     {
         id: 3,
@@ -58,7 +55,7 @@ export const meetings: SacramentMeeting[] = [
         stakeBusiness: false,
         sacramentHymn: { number: 3, title: "Come, Follow Me" },
         speakers: [
-            { name: "Brother Theo Grant", type: "speaker" },
+            { name: "Brother Theo Grant", topic: "Gratitude and Service", type: "speaker" },
         ],
         intermediateHymn: { number: 4, title: "Be Still, My Soul" },
         closingHymn: { number: 6, title: "Lead, Kindly Light" },
@@ -79,7 +76,7 @@ export const meetings: SacramentMeeting[] = [
         stakeBusiness: false,
         sacramentHymn: { number: 2, title: "Come, Follow Me" },
         speakers: [
-            { name: "Sister Amara Lee", type: "speaker" },
+            { name: "Sister Amara Lee", topic: "Faith and Service", type: "speaker" },
         ],
         intermediateHymn: { number: 3, title: "Come, Come, Ye Saints" },
         closingHymn: { number: 4, title: "Love One Another" },
@@ -99,13 +96,12 @@ export const meetings: SacramentMeeting[] = [
         stakeBusiness: false,
         sacramentHymn: { number: 3, title: "Come, Follow Me" },
         speakers: [
-            { name: "Brother Theo Grant", type: "speaker" },
+            { name: "Brother Theo Grant", topic: "Gratitude and Service", type: "speaker" },
         ],
         intermediateHymn: { number: 4, title: "Be Still, My Soul" },
         closingHymn: { number: 5, title: "The Spirit of God" },
         closingPrayer: "Sister Mejia",
-        items: [
-        ]
+        items: [],
     }
 
 ];
