@@ -66,7 +66,7 @@ export const meetings: SacramentMeeting[] = [
     },
     {
         id: 4,
-        date: "2026-09-13",
+        date: "2026-09-20",
         meetingType: "regular",
         presiding: "Bishop  Marquez",
         conducting: "Brother Patel",
@@ -86,7 +86,7 @@ export const meetings: SacramentMeeting[] = [
     },
     {
         id: 5,
-        date: "2026-09-20",
+        date: "2026-09-27",
         meetingType: "regular",
         presiding: "President Mejia",
         conducting: "Brother Meyer",
@@ -112,8 +112,8 @@ export function getMeetings(date?: string | null): SacramentMeeting[] {
     }
     return meetings.filter((meeting) => meeting.date === date);
 }
-export function getMeetingById(id: number): SacramentMeeting | undefined {
-    return meetings.find((meeting) => meeting.id === id);
+export function getMeetingById(id: number): SacramentMeeting | null {
+    return meetings.find((meeting) => meeting.id === id) ?? null;
 }
 
 export function getCurrentMeeting(): SacramentMeeting {
