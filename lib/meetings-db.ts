@@ -1,6 +1,8 @@
 import { neon } from "@neondatabase/serverless";
 import type { SacramentMeeting } from "./types";
 
+const MEETINGS_PER_PAGE = 5;
+
 function getSql() {
     const databaseUrl = process.env.DATABASE_URL;
 
@@ -11,27 +13,41 @@ function getSql() {
     return neon(databaseUrl);
 }
 
-export async function getMeetings(date?: string | null): Promise<SacramentMeeting[]> {
+export async function getMeetings(query = "", page = 1, date?: string | null): Promise<SacramentMeeting[]> {
     const sql = getSql();
+    const offset = (Math.max(page, 1) - 1) * MEETINGS_PER_PAGE;
 
     if (date) {
         return (await sql`SELECT * FROM meetings WHERE date = ${date} ORDER BY date DESC`) as SacramentMeeting[];
     }
 
-    return (await sql`SELECT * FROM meetings ORDER BY date DESC`) as SacramentMeeting[];
+    if (query) {
+        return (await sql`SELECT * FROM meetings WHERE to_jsonb(meetings)::text ILIKE ${`%${query}%`} ORDER BY date DESC LIMIT ${MEETINGS_PER_PAGE} OFFSET ${offset}`) as SacramentMeeting[];
+    }
+
+    return (await sql`SELECT * FROM meetings ORDER BY date DESC LIMIT ${MEETINGS_PER_PAGE} OFFSET ${offset}`) as SacramentMeeting[];
+}
+
+export async function getMeetingsTotalPages(query = ""): Promise<number> {
+    const sql = getSql();
+    const [result] = query
+        ? await sql`SELECT COUNT(*)::int AS count FROM meetings WHERE to_jsonb(meetings)::text ILIKE ${`%${query}%`}`
+        : await sql`SELECT COUNT(*)::int AS count FROM meetings`;
+
+    return Math.max(1, Math.ceil(Number(result.count) / MEETINGS_PER_PAGE));
 }
 
 export async function getMeetingById(id: number): Promise<SacramentMeeting | null> {
     const sql = getSql();
-    const [meeting] = await sql`SELECT * FROM meetings WHERE id = ${id}` as SacramentMeeting[];
-    return meeting ?? null;
+    const meetings = await sql`SELECT * FROM meetings WHERE id = ${id}` as SacramentMeeting[];
+    return meetings[0] ?? null;
 }
 
 export async function getCurrentMeeting(): Promise<SacramentMeeting> {
     const today = new Date();
     const sunday = new Date(today);
     sunday.setDate(today.getDate() - today.getDay());
-    const [meeting] = await getMeetings(sunday.toISOString().slice(0, 10));
+    const [meeting] = await getMeetings("", 1, sunday.toISOString().slice(0, 10));
 
     if (!meeting) {
         throw new Error("No meeting is scheduled for this Sunday.");
@@ -45,13 +61,17 @@ export async function getMeeting(id: number): Promise<SacramentMeeting | null> {
 }
 
 export async function addMeeting(_meeting: SacramentMeeting): Promise<SacramentMeeting> {
+    void _meeting;
     throw new Error("Adding meetings will be implemented with the Week 04 forms.");
 }
 
 export async function updateMeeting(_id: number, _meeting: SacramentMeeting): Promise<SacramentMeeting | null> {
+    void _id;
+    void _meeting;
     throw new Error("Updating meetings will be implemented with the Week 04 forms.");
 }
 
 export async function deleteMeeting(_id: number): Promise<void> {
+    void _id;
     throw new Error("Deleting meetings will be implemented with the Week 04 forms.");
 }

@@ -9,7 +9,7 @@ export default async function CurrentMeetingPage(): Promise<never> {
     const sunday = new Date(today);
     sunday.setDate(today.getDate() - dayOfWeek);
     const sundayDate = sunday.toISOString().slice(0, 10);
-    const meeting = (await getMeetings(sundayDate))[0];
+    const meeting = (await getMeetings("", 1, sundayDate))[0];
 
     redirect(meeting ? `/meetings/${meeting.id}` : "/meetings");
 }
