@@ -8,6 +8,6 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
         return Response.json({ error: "Meeting ID must be a number" }, { status: 400 });
     }
 
-    const meeting = getMeetingById(id);
+    const meeting = await getMeetingById(id);
     return meeting ? Response.json(meeting) : Response.json({ error: "Meeting not found" }, { status: 404 });
 }
