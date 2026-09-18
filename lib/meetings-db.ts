@@ -2,6 +2,10 @@ import { neon } from "@neondatabase/serverless";
 import type { SacramentMeeting } from "./types";
 
 const MEETINGS_PER_PAGE = 5;
+//Check environment variables first
+if (!process.env.DATABASE_URL) {
+    throw new Error("DATABASE_URL environment variable is not set.");
+}
 
 function getSql() {
     const databaseUrl = process.env.DATABASE_URL ?? process.env.DATABASE_URL_UNPOOLED;
