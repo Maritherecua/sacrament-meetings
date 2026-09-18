@@ -1,5 +1,5 @@
 import { neon } from "@neondatabase/serverless";
-import type { SacramentMeeting } from "./types";
+import type { SacramentMeeting } from "@/lib/types";
 
 const MEETINGS_PER_PAGE = 5;
 //Check environment variables first
@@ -48,6 +48,7 @@ export async function getMeetingById(id: number): Promise<SacramentMeeting | nul
 }
 
 export async function getCurrentMeeting(): Promise<SacramentMeeting> {
+    // Database query execution to find the next upcoming meeting.
     const sql = getSql();
     const today = new Date();
     const sunday = new Date(today);
