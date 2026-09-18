@@ -4,9 +4,9 @@ import type { SacramentMeeting } from "./types";
 const MEETINGS_PER_PAGE = 5;
 
 function getSql() {
-    const databaseUrl = process.env.DATABASE_URL;
+    const databaseUrl = process.env.DATABASE_URL ?? process.env.DATABASE_URL_UNPOOLED;
 
-    if (!databaseUrl || databaseUrl === "POSTGRES_URL") {
+    if (!databaseUrl || databaseUrl === "POSTGRES_URL" || databaseUrl === "postgresql://") {
         throw new Error("DATABASE_URL must contain a valid Neon connection string.");
     }
 
