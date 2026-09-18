@@ -48,7 +48,7 @@ export async function getCurrentMeeting(): Promise<SacramentMeeting> {
     const today = new Date();
     const sunday = new Date(today);
     sunday.setDate(today.getDate() - today.getDay());
-    const [meeting] = await sql`SELECT meetings.*, to_char(date, 'YYYY-MM-DD') AS date FROM meetings WHERE date >= ${sunday.toISOString().slice(0, 10)} ORDER BY date ASC LIMIT 1` as SacramentMeeting[];
+    const [meeting] = await sql`SELECT meetings.*, to_char(meetings.date, 'YYYY-MM-DD') AS date FROM meetings WHERE meetings.date >= ${sunday.toISOString().slice(0, 10)} ORDER BY meetings.date ASC LIMIT 1` as SacramentMeeting[];
 
     if (!meeting) {
         throw new Error("No upcoming meetings are scheduled.");
