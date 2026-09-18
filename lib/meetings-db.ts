@@ -18,14 +18,14 @@ export async function getMeetings(query = "", page = 1, date?: string | null): P
     const offset = (Math.max(page, 1) - 1) * MEETINGS_PER_PAGE;
 
     if (date) {
-        return (await sql`SELECT meetings.*, to_char(date, 'YYYY-MM-DD') AS date FROM meetings WHERE date = ${date} ORDER BY date DESC`) as SacramentMeeting[];
+        return (await sql`SELECT meetings.*, to_char(meetings.date, 'YYYY-MM-DD') AS date FROM meetings WHERE meetings.date = ${date} ORDER BY meetings.date DESC`) as SacramentMeeting[];
     }
 
     if (query) {
-        return (await sql`SELECT meetings.*, to_char(date, 'YYYY-MM-DD') AS date FROM meetings WHERE to_jsonb(meetings)::text ILIKE ${`%${query}%`} ORDER BY date DESC LIMIT ${MEETINGS_PER_PAGE} OFFSET ${offset}`) as SacramentMeeting[];
+        return (await sql`SELECT meetings.*, to_char(meetings.date, 'YYYY-MM-DD') AS date FROM meetings WHERE to_jsonb(meetings)::text ILIKE ${`%${query}%`} ORDER BY meetings.date DESC LIMIT ${MEETINGS_PER_PAGE} OFFSET ${offset}`) as SacramentMeeting[];
     }
 
-    return (await sql`SELECT meetings.*, to_char(date, 'YYYY-MM-DD') AS date FROM meetings ORDER BY date DESC LIMIT ${MEETINGS_PER_PAGE} OFFSET ${offset}`) as SacramentMeeting[];
+    return (await sql`SELECT meetings.*, to_char(meetings.date, 'YYYY-MM-DD') AS date FROM meetings ORDER BY meetings.date DESC LIMIT ${MEETINGS_PER_PAGE} OFFSET ${offset}`) as SacramentMeeting[];
 }
 
 export async function getMeetingsTotalPages(query = ""): Promise<number> {
@@ -39,7 +39,7 @@ export async function getMeetingsTotalPages(query = ""): Promise<number> {
 
 export async function getMeetingById(id: number): Promise<SacramentMeeting | null> {
     const sql = getSql();
-    const meetings = await sql`SELECT meetings.*, to_char(date, 'YYYY-MM-DD') AS date FROM meetings WHERE id = ${id}` as SacramentMeeting[];
+    const meetings = await sql`SELECT meetings.*, to_char(meetings.date, 'YYYY-MM-DD') AS date FROM meetings WHERE meetings.id = ${id}` as SacramentMeeting[];
     return meetings[0] ?? null;
 }
 

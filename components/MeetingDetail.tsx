@@ -6,8 +6,8 @@ interface MeetingDetailProps {
     meeting: SacramentMeeting;
 }
 
-function hymnLabel(hymn: Hymn): string {
-    return `#${hymn.number} · ${hymn.title}`;
+function hymnLabel(hymn?: Hymn): string {
+    return hymn ? `#${hymn.number} · ${hymn.title}` : "Not scheduled";
 }
 
 function participantLabel(item: SpeakerItem): string {
