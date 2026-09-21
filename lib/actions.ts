@@ -63,7 +63,12 @@ export async function createMeeting(formData: FormData): Promise<void> {
         throw new Error(z.prettifyError(parsed.error));
     }
 
-    await addMeeting(toMeetingInput(parsed.data));
+    try {
+        await addMeeting(toMeetingInput(parsed.data));
+    } catch (error) {
+        console.error("Failed to create meeting:", error);
+        throw new Error("Something went wrong while creating the meeting. Please try again.");
+    }
 
     revalidatePath("/meetings");
     redirect("/meetings");
@@ -76,7 +81,12 @@ export async function updateMeeting(id: number, formData: FormData): Promise<voi
         throw new Error(z.prettifyError(parsed.error));
     }
 
-    await updateMeetingRow(id, toMeetingInput(parsed.data));
+    try {
+        await updateMeetingRow(id, toMeetingInput(parsed.data));
+    } catch (error) {
+        console.error(`Failed to update meeting ${id}:`, error);
+        throw new Error("Something went wrong while updating the meeting. Please try again.");
+    }
 
     revalidatePath("/meetings");
     redirect("/meetings");
@@ -89,7 +99,12 @@ export async function deleteMeeting(formData: FormData): Promise<void> {
         throw new Error("Meeting ID must be a number.");
     }
 
-    await deleteMeetingRow(id);
+    try {
+        await deleteMeetingRow(id);
+    } catch (error) {
+        console.error(`Failed to delete meeting ${id}:`, error);
+        throw new Error("Something went wrong while deleting the meeting. Please try again.");
+    }
 
     revalidatePath("/meetings");
 }
