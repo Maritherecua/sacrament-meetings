@@ -56,36 +56,47 @@ function toMeetingInput(data: z.infer<typeof MeetingFormSchema>): MeetingInput {
     };
 }
 
-export async function createMeeting(formData: FormData): Promise<void> {
+export type MeetingFormState = {
+    errors?: Partial<Record<string, string[]>>;
+    message?: string | null;
+};
+
+export async function createMeeting(_prevState: MeetingFormState, formData: FormData): Promise<MeetingFormState> {
     const parsed = MeetingFormSchema.safeParse(Object.fromEntries(formData));
 
     if (!parsed.success) {
-        throw new Error(z.prettifyError(parsed.error));
+        return {
+            errors: z.flattenError(parsed.error).fieldErrors,
+            message: "Please fix the errors below and try again.",
+        };
     }
 
     try {
         await addMeeting(toMeetingInput(parsed.data));
     } catch (error) {
         console.error("Failed to create meeting:", error);
-        throw new Error("Something went wrong while creating the meeting. Please try again.");
+        return { message: "Something went wrong while creating the meeting. Please try again." };
     }
 
     revalidatePath("/meetings");
     redirect("/meetings");
 }
 
-export async function updateMeeting(id: number, formData: FormData): Promise<void> {
+export async function updateMeeting(id: number, _prevState: MeetingFormState, formData: FormData): Promise<MeetingFormState> {
     const parsed = MeetingFormSchema.safeParse(Object.fromEntries(formData));
 
     if (!parsed.success) {
-        throw new Error(z.prettifyError(parsed.error));
+        return {
+            errors: z.flattenError(parsed.error).fieldErrors,
+            message: "Please fix the errors below and try again.",
+        };
     }
 
     try {
         await updateMeetingRow(id, toMeetingInput(parsed.data));
     } catch (error) {
         console.error(`Failed to update meeting ${id}:`, error);
-        throw new Error("Something went wrong while updating the meeting. Please try again.");
+        return { message: "Something went wrong while updating the meeting. Please try again." };
     }
 
     revalidatePath("/meetings");
