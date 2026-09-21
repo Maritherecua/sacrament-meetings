@@ -229,6 +229,34 @@ h2 {
     gap: 16px;
 }
 
+.meeting-search {
+    margin-bottom: 32px;
+}
+
+.meeting-search label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--muted);
+    font: 11px "DM Mono", monospace;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+}
+
+.meeting-search input {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 0;
+    background: var(--cream);
+    color: var(--ink);
+    padding: 13px 14px;
+    font: 14px "Manrope", sans-serif;
+}
+
+.meeting-search input:focus {
+    outline: 2px solid var(--coral);
+    outline-offset: 2px;
+}
+
 .meeting-card {
     display: grid;
     grid-template-columns: 92px 1fr;

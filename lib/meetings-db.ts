@@ -1,128 +1,83 @@
-import type { SacramentMeeting } from "./types";
+import { neon } from "@neondatabase/serverless";
+import type { SacramentMeeting } from "@/lib/types";
 
-export const meetings: SacramentMeeting[] = [
-    {
-        id: 1,
-        date: "2026-09-13",
-        meetingType: "regular",
-        presiding: "Bishop Marquez",
-        conducting: "Brother Manuel Borda",
-        openingHymn: { number: 1, title: "How Great Thou Art" },
-        openingPrayer: "Brother Luna",
-        wardBusinessItem: [],
-        stakeBusiness: false,
-        sacramentHymn: { number: 3, title: "Come, Follow Me" },
-        speakers: [
-            { name: "Sister Amara Lee", topic: "faith in Christ", type: "speaker" },
-            { name: "Elder Marcus Bell", topic: "Service", type: "speaker" },
-            { name: "Ward Choir", type: "musical-number" },
-        ],
-        intermediateHymn: { number: 4, title: "Be Still, My Soul" },
-        closingHymn: { number: 2, title: "Count Your Blessings" },
-        closingPrayer: "Sister Langarica",
-        announcements: [],
-        items: [],
-    },
-    {
-        id: 2,
-        date: "2026-09-06",
-        meetingType: "regular",
-        presiding: "Brother Tusher",
-        conducting: "Sister Nia Patel",
-        openingHymn: { number: 3, title: "Come, Come, Ye Saints" },
-        openingPrayer: "Gabriel Lopez",
-        wardBusinessItem: [{ description: "Discussion on upcoming ward activities" }],
-        stakeBusiness: false,
-        sacramentHymn: { number: 5, title: "The Spirit of God" },
-        speakers: [
-            { name: "Sister Nia Patel", topic: " Being prepared for service", type: "speaker" },
-        ],
-        intermediateHymn: { number: 6, title: "Abide with Me; 'Tis Eventide" },
-        closingHymn: { number: 4, title: "Love One Another" },
-        closingPrayer: "Sister Perez",
-        announcements: ["Ward activity updates"],
-        items: [],
-    },
-    {
-        id: 3,
-        date: "2026-08-30",
-        meetingType: "regular",
-        presiding: "Bishop  Marquez",
-        conducting: "Brother Soberanis",
-        openingHymn: { number: 5, title: "Where Can I Turn for Peace?" },
-        openingPrayer: "Brother Perez",
-        wardBusinessItem: [],
-        stakeBusiness: false,
-        sacramentHymn: { number: 3, title: "Come, Follow Me" },
-        speakers: [
-            { name: "Brother Theo Grant", topic: "Gratitude and Service", type: "speaker" },
-        ],
-        intermediateHymn: { number: 4, title: "Be Still, My Soul" },
-        closingHymn: { number: 6, title: "Lead, Kindly Light" },
-        closingPrayer: "Sister Canizales",
-        items: [
-
-        ],
-    },
-    {
-        id: 4,
-        date: "2026-09-20",
-        meetingType: "regular",
-        presiding: "Bishop  Marquez",
-        conducting: "Brother Patel",
-        openingHymn: { number: 1, title: "The Morning Breaks" },
-        openingPrayer: "Brother Tafolla",
-        wardBusinessItem: [],
-        stakeBusiness: false,
-        sacramentHymn: { number: 2, title: "Come, Follow Me" },
-        speakers: [
-            { name: "Sister Amara Lee", topic: "Faith and Service", type: "speaker" },
-        ],
-        intermediateHymn: { number: 3, title: "Come, Come, Ye Saints" },
-        closingHymn: { number: 4, title: "Love One Another" },
-        closingPrayer: "Sister Alejandra Powell",
-        items: [
-        ],
-    },
-    {
-        id: 5,
-        date: "2026-09-27",
-        meetingType: "regular",
-        presiding: "President Mejia",
-        conducting: "Brother Meyer",
-        openingHymn: { number: 2, title: "The Spirit of God" },
-        openingPrayer: "Sister Rosales",
-        wardBusinessItem: [],
-        stakeBusiness: false,
-        sacramentHymn: { number: 3, title: "Come, Follow Me" },
-        speakers: [
-            { name: "Brother Theo Grant", topic: "Gratitude and Service", type: "speaker" },
-        ],
-        intermediateHymn: { number: 4, title: "Be Still, My Soul" },
-        closingHymn: { number: 5, title: "The Spirit of God" },
-        closingPrayer: "Sister Mejia",
-        items: [],
-    }
-
-];
-
-export function getMeetings(date?: string | null): SacramentMeeting[] {
-    if (!date) {
-        return meetings;
-    }
-    return meetings.filter((meeting) => meeting.date === date);
-}
-export function getMeetingById(id: number): SacramentMeeting | null {
-    return meetings.find((meeting) => meeting.id === id) ?? null;
+const MEETINGS_PER_PAGE = 5;
+//Check environment variables first
+if (!process.env.DATABASE_URL) {
+    throw new Error("DATABASE_URL environment variable is not set.");
 }
 
-export function getCurrentMeeting(): SacramentMeeting {
+function getSql() {
+    const databaseUrl = process.env.DATABASE_URL ?? process.env.DATABASE_URL_UNPOOLED;
+
+    if (!databaseUrl || databaseUrl === "POSTGRES_URL" || databaseUrl === "postgresql://") {
+        throw new Error("DATABASE_URL must contain a valid Neon connection string.");
+    }
+
+    return neon(databaseUrl);
+}
+
+export async function getMeetings(query = "", page = 1, date?: string | null): Promise<SacramentMeeting[]> {
+    const sql = getSql();
+    const offset = (Math.max(page, 1) - 1) * MEETINGS_PER_PAGE;
+
+    if (date) {
+        return (await sql`SELECT meetings.*, to_char(meetings.date, 'YYYY-MM-DD') AS date FROM meetings WHERE meetings.date = ${date} ORDER BY meetings.date DESC`) as SacramentMeeting[];
+    }
+
+    if (query) {
+        return (await sql`SELECT meetings.*, to_char(meetings.date, 'YYYY-MM-DD') AS date FROM meetings WHERE to_jsonb(meetings)::text ILIKE ${`%${query}%`} ORDER BY meetings.date DESC LIMIT ${MEETINGS_PER_PAGE} OFFSET ${offset}`) as SacramentMeeting[];
+    }
+
+    return (await sql`SELECT meetings.*, to_char(meetings.date, 'YYYY-MM-DD') AS date FROM meetings ORDER BY meetings.date DESC LIMIT ${MEETINGS_PER_PAGE} OFFSET ${offset}`) as SacramentMeeting[];
+}
+
+export async function getMeetingsTotalPages(query = ""): Promise<number> {
+    const sql = getSql();
+    const [result] = query
+        ? await sql`SELECT COUNT(*)::int AS count FROM meetings WHERE to_jsonb(meetings)::text ILIKE ${`%${query}%`}`
+        : await sql`SELECT COUNT(*)::int AS count FROM meetings`;
+
+    return Math.max(1, Math.ceil(Number(result.count) / MEETINGS_PER_PAGE));
+}
+
+export async function getMeetingById(id: number): Promise<SacramentMeeting | null> {
+    const sql = getSql();
+    const meetings = await sql`SELECT meetings.*, to_char(meetings.date, 'YYYY-MM-DD') AS date FROM meetings WHERE meetings.id = ${id}` as SacramentMeeting[];
+    return meetings[0] ?? null;
+}
+
+export async function getCurrentMeeting(): Promise<SacramentMeeting> {
+    // Database query execution to find the next upcoming meeting.
+    const sql = getSql();
     const today = new Date();
     const sunday = new Date(today);
     sunday.setDate(today.getDate() - today.getDay());
-    return getMeetings(sunday.toISOString().slice(0, 10))[0] ?? meetings[0];
+    const [meeting] = await sql`SELECT meetings.*, to_char(meetings.date, 'YYYY-MM-DD') AS date FROM meetings WHERE meetings.date >= ${sunday.toISOString().slice(0, 10)} ORDER BY meetings.date ASC LIMIT 1` as SacramentMeeting[];
+
+    if (!meeting) {
+        throw new Error("No upcoming meetings are scheduled.");
+    }
+
+    return meeting;
 }
 
-export function getMeeting(id: number): SacramentMeeting | null {
+export async function getMeeting(id: number): Promise<SacramentMeeting | null> {
     return getMeetingById(id);
+}
+
+export async function addMeeting(_meeting: SacramentMeeting): Promise<SacramentMeeting> {
+    void _meeting;
+    throw new Error("Adding meetings will be implemented with the Week 04 forms.");
+}
+
+export async function updateMeeting(_id: number, _meeting: SacramentMeeting): Promise<SacramentMeeting | null> {
+    void _id;
+    void _meeting;
+    throw new Error("Updating meetings will be implemented with the Week 04 forms.");
+}
+
+export async function deleteMeeting(_id: number): Promise<void> {
+    void _id;
+    throw new Error("Deleting meetings will be implemented with the Week 04 forms.");
 }
