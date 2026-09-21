@@ -1,8 +1,8 @@
 export type MeetingType =
-|"testimony"
-|"regular"
-|"stake"
-|"general"
+    | "testimony"
+    | "regular"
+    | "stake"
+    | "general"
 
 export interface Hymn {
     number: number;
@@ -33,6 +33,9 @@ export interface SacramentMeeting {
     intermediateHymn?: Hymn;
     closingHymn: Hymn;
     closingPrayer: string;
-   items: (SpeakerItem | WardBusinessItem)[];
-    
+    items: (SpeakerItem | WardBusinessItem)[];
+
 }
+
+// Shape used to create/update a meeting; the DB generates the id and has no column for intermediateHymn/items.
+export type MeetingInput = Omit<SacramentMeeting, "id" | "items" | "intermediateHymn">;
