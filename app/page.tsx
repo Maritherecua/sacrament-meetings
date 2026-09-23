@@ -13,7 +13,7 @@ export default async function Home() {
     <Link className="primary-link" href={`/meetings/${meeting.id}`}>See this Sunday <span aria-hidden="true">→</span></Link> ):(
     <Link className="primary-link" href="/meetings">See all meetings <span aria-hidden="true">→</span></Link>
     )}
-        </div><Image className="hero-image" src="/Jesus.webp" alt="Illustration of Jesus for the meeting record" width={320} height={320} priority /></section><section className="home-feature">
+        </div><Image className="hero-image" src="/Jesus.webp" alt="Illustration of Jesus" width={320} height={320} priority /></section><section className="home-feature">
             {meeting ? (
             <MeetingCard meeting={meeting} featured /> ) : ( 
             <p>No meeting scheduled for this Sunday.</p>
