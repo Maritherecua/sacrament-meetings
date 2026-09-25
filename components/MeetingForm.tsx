@@ -63,7 +63,7 @@ export function MeetingForm({ action, submitLabel, meeting }: MeetingFormProps):
             </div>
 
             <div className="grid gap-1">
-                <label className="flex items-center gap-2">
+                <label htmlFor="stakeBusiness" className="flex items-center gap-2">
                     <input id="stakeBusiness" type="checkbox" name="stakeBusiness" defaultChecked={meeting?.stakeBusiness} aria-describedby="stakeBusiness-error" />
                     <span>Includes stake business</span>
                 </label>
