@@ -65,8 +65,19 @@ export async function createMeeting(_prevState: MeetingFormState, formData: Form
     const parsed = MeetingFormSchema.safeParse(Object.fromEntries(formData));
 
     if (!parsed.success) {
+        const fieldErrors: Record<string, string[]> = {};
+        for (const issue of parsed.error.issues) {
+            const field = issue.path[0]?.toString();
+            if (field) {
+                if (!fieldErrors[field]) {
+                    fieldErrors[field] = [];
+                }
+                fieldErrors[field].push(issue.message);
+            }
+        }
         return {
-            errors: z.flattenError(parsed.error).fieldErrors,
+            //errors: z.flattenError(parsed.error).fieldErrors,
+            errors: fieldErrors,
             message: "Please fix the errors below and try again.",
         };
     }
@@ -86,8 +97,18 @@ export async function updateMeeting(id: number, _prevState: MeetingFormState, fo
     const parsed = MeetingFormSchema.safeParse(Object.fromEntries(formData));
 
     if (!parsed.success) {
+        const fieldErrors: Record<string, string[]> = {};
+        for (const issue of parsed.error.issues) {
+            const field = issue.path[0]?.toString();
+            if (field) {
+                if (!fieldErrors[field]) {
+                    fieldErrors[field] = [];
+                }
+                fieldErrors[field].push(issue.message);
+            }
+        }
         return {
-            errors: z.flattenError(parsed.error).fieldErrors,
+            errors: fieldErrors,
             message: "Please fix the errors below and try again.",
         };
     }
