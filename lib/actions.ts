@@ -13,7 +13,7 @@ const MeetingFormSchema = z.object({
     conducting: z.string().trim().min(1, "Conducting is required."),
     openingPrayer: z.string().trim().min(1, "Opening prayer is required."),
     closingPrayer: z.string().trim().min(1, "Closing prayer is required."),
-    stakeBusiness: z.optional(z.string()).transform((value) => value === "on"),
+    stakeBusiness: z.string().optional().transform((value) => value === "on"),
     openingHymnNumber: z.coerce.number().int().positive("Enter a valid hymn number."),
     openingHymnTitle: z.string().trim().min(1, "Opening hymn title is required."),
     sacramentHymnNumber: z.coerce.number().int().positive("Enter a valid hymn number."),
@@ -29,13 +29,24 @@ const MeetingFormSchema = z.object({
 function parseLines(value: string): string[] {
     return value.split("\n").map((line) => line.trim()).filter(Boolean);
 }
-
+//Define a clear interface for the parsed speaker object
+interface SpeakerItem {
+    name: string;
+    topic?: string;
+    type: "speaker";
+}
 // Speaker lines are entered as "Name | Topic"; topic is optional.
-function parseSpeakers(value: string) {
-    return parseLines(value).map((line) => {
-        const [name, topic] = line.split("|").map((part) => part.trim());
-        return { name, topic: topic || undefined, type: "speaker" as const };
-    });
+function parseSpeakers(value: string): SpeakerItem[] {
+    return parseLines(value).map((line): SpeakerItem => {
+        const parts = line.split("|").map((part) => part.trim());
+        const name = parts[0] || "";
+        const topic = parts[1] || undefined;
+        return {name, topic, type: "speaker" };
+    
+        // const parts = line.split("|").map((part) => part.trim());
+        // return { name, topic: topic || undefined, type: "speaker" as const };
+    })
+    .filter((speaker: SpeakerItem) => speaker.name.length > 0);      
 }
 
 function toMeetingInput(data: z.infer<typeof MeetingFormSchema>): MeetingInput {
