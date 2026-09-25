@@ -100,7 +100,7 @@ export async function createMeeting(_prevState: MeetingFormState, formData: Form
         return { message: "Something went wrong while creating the meeting. Please try again." };
     }
 
-    revalidatePath("/meetings");
+    revalidatePath("/meetings", "layout");
     redirect("/meetings");
 }
 
@@ -131,7 +131,7 @@ export async function updateMeeting(id: number, _prevState: MeetingFormState, fo
         return { message: "Something went wrong while updating the meeting. Please try again." };
     }
 
-    revalidatePath("/meetings");
+    revalidatePath("/meetings", "layout");
     redirect("/meetings");
 }
 
@@ -149,5 +149,5 @@ export async function deleteMeeting(formData: FormData): Promise<void> {
         throw new Error("Something went wrong while deleting the meeting. Please try again.");
     }
 
-    revalidatePath("/meetings");
+    revalidatePath("/meetings", "layout");
 }
